@@ -40,7 +40,7 @@ class Model_DA(L.LightningModule):
         super().__init__()
         self.model_base = model
         self.domain_classifier = torch.nn.Sequential()
-        dim_features = get_output_shape(self.model_base.features,(3, 224, 224))
+        dim_features = get_output_shape(self.model_base.features,(1, 3, 224, 224))
         self.domain_classifier.add_module('dc_l1',torch.nn.Linear(dim_features, 256))
         self.domain_classifier.add_module('dc_l2',torch.nn.Linear(256, n_databases))
         self.lr_schedulers = ReduceLROnPlateau(self.optimizer(), factor=0.5, patience=3, min_lr=1e-5, verbose=True)
@@ -103,7 +103,7 @@ class BModel_DA(L.LightningModule):
         super().__init__()
         self.model_base = model
         self.domain_classifier = torch.nn.Sequential()
-        dim_features = get_output_shape(self.model_base.features,(3, 224, 224))
+        dim_features = get_output_shape(self.model_base.features,(1, 3, 224, 224))
         self.domain_classifier.add_module('dc_l1',torch.nn.Linear(dim_features, 256))
         self.domain_classifier.add_module('dc_l2',torch.nn.Linear(256, n_databases))
         self.lr_schedulers = ReduceLROnPlateau(self.optimizer(), factor=0.5, patience=3, min_lr=1e-5, verbose=True)

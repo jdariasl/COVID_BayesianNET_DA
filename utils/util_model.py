@@ -2,7 +2,7 @@ import torch
 import torch.optim as optim
 
 def get_output_shape(model, image_dim):
-    return model(torch.rand(*(image_dim))).data.shape
+    return model(torch.rand(*image_dim)).data.shape
 
 def select_optimizer(args, model):
     if args.opt == 'sgd':
