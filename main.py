@@ -89,13 +89,13 @@ def get_arguments():
     parser.add_argument('--init_from', action='store_true', default=False)
     parser.add_argument('--opt', type=str, default='adam',
                         choices=('sgd', 'adam', 'rmsprop'))
-    parser.add_argument('--dataset', type=str, default='COVID_BayesianNET/Data/OrgImagesRescaled/',
+    parser.add_argument('--dataset', type=str, default='COVID_BayesianNET_DA/Data/OrgImagesRescaled/',
                         help='path to dataset ')
     parser.add_argument('--pre_processing', type=str, default='CLAHE',
                         choices=('None','Equalization','CLAHE'))
-    parser.add_argument('--saved_model', type=str, default='COVID_BayesianNET/models_saved/Model_best_checkpoint.pth.tar',
+    parser.add_argument('--saved_model', type=str, default='COVID_BayesianNET_DA/models_saved/Model_best_checkpoint.pth.tar',
                         help='path to save_model ')
-    parser.add_argument('--save', type=str, default='COVID_BayesianNET/models_saved/',
+    parser.add_argument('--save', type=str, default='COVID_BayesianNET_DA/models_saved/',
                         help='path to checkpoint ')
     args = parser.parse_args()
     return args
