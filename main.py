@@ -91,7 +91,7 @@ def get_arguments():
                         choices=('sgd', 'adam', 'rmsprop'))
     parser.add_argument('--dataset', type=str, default='COVID_BayesianNET/Data/OrgImagesRescaled/',
                         help='path to dataset ')
-    parser.add_argument('--pre_processing', type=str, default='None',
+    parser.add_argument('--pre_processing', type=str, default='CLAHE',
                         choices=('None','Equalization','CLAHE'))
     parser.add_argument('--saved_model', type=str, default='COVID_BayesianNET/models_saved/Model_best_checkpoint.pth.tar',
                         help='path to save_model ')
