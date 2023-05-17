@@ -106,7 +106,7 @@ def write_json_file(content, fname):
         json.dump(content, handle, indent=4, sort_keys=False)
 
 def read_filepaths(file):
-    paths, labels = [], []
+    paths, labels, dbs = [], [], []
     with open(file, 'r') as f:
         lines = f.read().splitlines()
 
@@ -114,15 +114,16 @@ def read_filepaths(file):
             if ('/ c o' in line):
                 break
             #print(line)    
-            subjid, path, label = line.split(' ')
-
+            _, path, label = line.split(' ')
+            db = path.split('_')[0]
             paths.append(path)
             labels.append(label)
+            dbs.append(db)
     labes_array = np.array(labels)
     classes = np.unique(labes_array)
     for i in classes:
         print('Clase={}-Samples={}'.format(i, np.sum(labes_array == i)))
-    return paths, labels
+    return paths, labels, dbs
 
 def select_model(args,weights):
     if args.model == 'BDenseNet':

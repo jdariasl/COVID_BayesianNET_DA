@@ -52,7 +52,7 @@ class COVIDxDataset(Dataset):
         testfile = 'COVID_BayesianNET_DA/Experiment/test_split_fold_0.txt'
         trainfile = 'COVID_BayesianNET_DA/Experiment/train_split_fold_0.txt'
         if (mode == 'train'):
-            self.paths, self.labels = read_filepaths(trainfile)
+            self.paths, self.labels, self.dbs = read_filepaths(trainfile)
         elif (mode == 'test'):
             self.paths, self.labels = read_filepaths(testfile)
         print("{} examples =  {}".format(mode, len(self.paths)))

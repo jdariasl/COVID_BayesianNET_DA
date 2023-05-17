@@ -18,12 +18,12 @@ def initialize(args):
                                  dim=(224, 224), pre_processing = args.pre_processing)
     #print(train_loader.)
     #------ Class weigths for sampling and for loss function -----------------------------------
-    labels_class = np.unique(train_loader.labels['label_class'])
+    labels_class = np.unique(train_loader.labels)
     print(labels_class)
-    class_weight = compute_class_weight(class_weight='balanced', classes=labels_class, y=train_loader.labels['label_class'])
+    class_weight = compute_class_weight(class_weight='balanced', classes=labels_class, y=train_loader.labels)
     
-    labels_db = np.unique(train_loader.labels['label_db'])
-    db_weight = compute_class_weight(class_weight='balanced', classes=labels_db, y=train_loader.labels['label_db'])
+    labels_db = np.unique(train_loader.dbs)
+    db_weight = compute_class_weight(class_weight='balanced', classes=labels_db, y=train_loader.dbs)
     #---------- Alphabetical order in labels does not correspond to class order in COVIDxDataset-----
     class_weight = class_weight[::-1]
 
