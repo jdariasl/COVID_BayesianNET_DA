@@ -1,8 +1,12 @@
 import torch
 import torch.optim as optim
+import torch.nn.functional as F
 
 def get_output_shape(model, image_dim):
-    return model(torch.rand(*image_dim)).data.shape
+    feature = model(torch.rand(*image_dim))
+    feature = F.adaptive_avg_pool2d(feature, (1, 1))
+    feature = torch.flatten(feature,1)
+    return feature.data.shape[-1]
 
 def select_optimizer(args, model):
     if args.opt == 'sgd':
