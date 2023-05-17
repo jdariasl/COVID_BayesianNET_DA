@@ -49,8 +49,8 @@ class COVIDxDataset(Dataset):
         self.dim = dim
         self.COVIDxDICT = {'pneumonia': 0, 'normal': 1, 'COVID-19': 2}
         self.pre_processing = pre_processing
-        testfile = 'COVID_BayesianNET/Experiment/test_split_fold_0.txt'
-        trainfile = 'COVID_BayesianNET/Experiment/train_split_fold_0.txt'
+        testfile = 'COVID_BayesianNET_DA/Experiment/test_split_fold_0.txt'
+        trainfile = 'COVID_BayesianNET_DA/Experiment/train_split_fold_0.txt'
         if (mode == 'train'):
             self.paths, self.labels = read_filepaths(trainfile)
         elif (mode == 'test'):
