@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import torch
 import torchvision
 from bayesian_torch.models.dnn_to_bnn import dnn_to_bnn
-from utils.util import get_output_shape, select_optimizer, Metrics, print_summary
+from utils.util_model import get_output_shape, select_optimizer, Metrics, print_summary
 from model.loss import crossentropy_loss
 from model.metric import accuracy
 from sklearn.metrics import balanced_accuracy_score

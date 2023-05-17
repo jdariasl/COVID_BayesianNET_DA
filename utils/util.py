@@ -5,7 +5,6 @@ import shutil
 import time
 from collections import OrderedDict
 import json
-import torch.optim as optim
 import pandas as pd
 from model.models import BDenseNet, DenseNet, BEfficientNet, EfficientNet, DA_model
 import csv
@@ -159,40 +158,6 @@ def select_model(args,weights):
                             weights,
                             b_flag=True), True
 
-def select_optimizer(args, model):
-    if args.opt == 'sgd':
-        return optim.SGD(model.parameters(), lr=args.lr, momentum=0.5, weight_decay=args.weight_decay)
-    elif args.opt == 'adam':
-        return optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    elif args.opt == 'rmsprop':
-        return optim.RMSprop(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-
-def print_stats(args, epoch, num_samples, trainloader, metrics):
-    if (num_samples % args.log_interval == 1):
-        print("Epoch:{:2d}\tSample:{:5d}/{:5d}\tLoss:{:.4f}\tAccuracy:{:.2f}".format(epoch,
-                                                                                         num_samples,
-                                                                                         len(
-                                                                                             trainloader) * args.batch_size,
-                                                                                         metrics.data[
-                                                                                             'loss'] / num_samples,
-                                                                                         metrics.data[
-                                                                                             'correct'] /
-                                                                                         metrics.data[
-                                                                                             'total']))
-
-def print_summary(args, epoch, num_samples, metrics, mode=''):
-    print(mode + "\n SUMMARY EPOCH:{:2d}\tSample:{:5d}/{:5d}\tLoss:{:.4f}\tAccuracy:{:.2f}\tBalancedAccuracy:{:.2f}\n".format(epoch,
-                                                                                                     num_samples,
-                                                                                                     num_samples ,
-                                                                                                     metrics.data[
-                                                                                                         'loss'] / num_samples,                                                                             
-                                                                                                     metrics.data[
-                                                                                                         'correct'] /
-                                                                                                     metrics.data[
-                                                                                                         'total'],
-                                                                                                     metrics.data[
-                                                                                                         'bacc']/num_samples))
-
 def ImportantOfContext(ReMap: np.array, Mask: np.array) -> float:
     (rr,cr) = ReMap.shape
     (rm,cm) = Mask.shape
@@ -210,62 +175,6 @@ def ImportantOfContext(ReMap: np.array, Mask: np.array) -> float:
     
     IoC = (np.sum(Pout)/npout)/(np.sum(Pin)/npin)
     return IoC
-
-def confusion_matrix(nb_classes):
-    confusion_matrix = torch.zeros(nb_classes, nb_classes)
-    with torch.no_grad():
-        for i, (inputs, classes) in enumerate(dataloaders['val']):
-            inputs = inputs.to(device)
-            classes = classes.to(device)
-            outputs = model_ft(inputs)
-            _, preds = torch.max(outputs, 1)
-            for t, p in zip(classes.view(-1), preds.view(-1)):
-                    confusion_matrix[t.long(), p.long()] += 1
-
-    print(confusion_matrix)
-
-def get_output_shape(model, image_dim):
-    return model(torch.rand(*(image_dim))).data.shape
-
-class Metrics:
-    def __init__(self, path, keys=None, writer=None):
-        self.writer = writer
-
-        self.data = {'correct': 0,
-                     'total': 0,
-                     'loss': 0,
-                     'accuracy': 0,
-                     'bacc':0,
-                     }
-        self.save_path = path
-
-    def reset(self):
-        for key in self.data:
-            self.data[key] = 0
-
-    def update_key(self, key, value, n=1):
-        if self.writer is not None:
-            self.writer.add_scalar(key, value)
-        self.data[key] += value
-
-    def update(self, values):
-        for key in self.data:
-            self.data[key] += values[key]
-    
-    def replace(self, values):
-        for key in values:
-            self.data[key] = values[key]
-
-    def avg_acc(self):
-        return self.data['correct'] / self.data['total']
-
-    def avg_loss(self):
-        return self.data['loss'] / self.data['total']
-
-    def save(self):
-        with open(self.save_path, 'w') as save_file:
-            a = 0  # csv.writer()
-            # TODO
 
 def assign_free_gpus(threshold_vram_usage=1500, max_gpus=2, wait=False, sleep_time=10):
     """

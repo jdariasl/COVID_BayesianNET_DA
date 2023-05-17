@@ -3,13 +3,13 @@ import os
 import torch.nn as nn
 import numpy as np
 from sklearn.utils.class_weight import compute_class_weight
+from sklearn.metrics import balanced_accuracy_score
 from model.loss import crossentropy_loss
-from utils.util import Metrics, print_summary, select_model, load_model, assign_free_gpus
+from utils.util import select_model, load_model, assign_free_gpus
+from utils.util_model import Metrics, print_summary
 from model.metric import accuracy
 from COVIDXDataset.dataset import COVIDxDataset
 from torch.utils.data import DataLoader
-from sklearn.metrics import balanced_accuracy_score
-
 
 
 def initialize(args):
